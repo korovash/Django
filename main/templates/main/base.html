@@ -39,7 +39,7 @@
     
 </style>
     <title>{% block title %}{% endblock %}</title>
-    <span id="login_text">{{ request.user.username }}</span> <a id="logout_ref" href="{% url 'logout' %}">Выход</a>
+    <span id="login_text">{{ request.user.get_full_name }}</span> <a id="logout_ref" href="{% url 'logout' %}">Выйти</a>
 </head>
 
 <body>

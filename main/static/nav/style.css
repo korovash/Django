@@ -59,7 +59,7 @@ li:active {
 }
 
 #logout_ref {
-    color: rgb(71, 81, 141);
+    color: #4caf50;
     text-decoration: none;
     font-weight: bold;
     margin: 0px; 
@@ -70,7 +70,7 @@ li:active {
 }
 
 #logout_ref:hover {
-    color: #66fb7a;
+    color: #FB667A;
     text-decoration: none;
 }
 

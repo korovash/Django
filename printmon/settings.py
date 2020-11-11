@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
+SECRET_KEY = '-t!md4j4ai4#okpxufh2rz2q(y51*64_s+)tr#&a8kms^wwzxu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -128,7 +128,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-SESSION_COOKIE_AGE = 3 * 60 # 3 minutes
 
 def FILTERS_VERBOSE_LOOKUPS():
     from django_filters.conf import DEFAULTS
@@ -145,3 +144,6 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = 'main'
 LOGOUT_REDIRECT_URL = 'login'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_AGE = 120 * 60
