@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+{% block head %}
+<link rel="stylesheet" href="/static/form/style.css">
+{% endblock %}
+{% block title %}
+Редактировать запись
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<h1 align="center">Редактирование устройства</h1>
+    <form method="post" class='form' id="edit_form">
+        {% csrf_token %}
+            <p class='field required'>
+                <label class='label required' for='hostname'>Имя устройства</label>
+                {{ form.hostname }}
+              </p>
+            <p class='field required half'>
+                <label class='label' for='inv_num'>Инвентарный номер</label>
+                {{ form.inv_num }}
+              </p>
+              <p class='field half'>
+                <label class='label' for='location'>Расположение</label>
+                {{ form.location }}
+              </p>
+              <datalist id="locations">
+                {% for location in locations %}
+                  <option value="{{ location.location }}">
+                {% endfor %}
+              </datalist>
+              <p class='field'>
+                <label class='label' for='desc'>Описание</label>
+                {{ form.desc }}
+              </p>
+        <p class='field'>
+        <button form="edit_form" type="submit" class="button">Редактировать</button>
+              </p>
+    </form>
+    </div>
+{% endblock %}

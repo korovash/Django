@@ -1,0 +1,54 @@
+{% extends 'main/base.html' %}
+{% block head %}
+<link rel="stylesheet" href="/static/form/style.css">
+{% load static %}
+
+{% endblock %}
+
+
+{% block script%}
+
+{% endblock %}
+
+{% block title %}
+Добавление устройства
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block content %}
+{% load widget_tweaks %}
+<h1 align="center">Добавление устройства</h1>
+<form method="post" class='form'>
+  {% csrf_token %}
+  <p class='field required'>
+    <label class='label required' for='hostname'>Имя устройства</label>
+    {{ form.hostname }}
+  </p>
+  <p class='field required half'>
+    <label class='label' for='inv_num'>Инвентарный номер</label>
+    {{ form.inv_num }}
+  </p>
+  <p class='field half'>
+    <label class='label' for='location'>Расположение</label>
+    {{ form.location }}
+      <datalist id="locations">
+        {% for location in locations %}
+          <option value="{{ location.location }}">
+        {% endfor %}
+      </datalist>
+  </p>
+  <p class='field'>
+    <label class='label' for='desc'>Описание</label>
+    {{ form.desc }}
+  </p>
+  <p class='field'>
+    <input class='button' type='submit' value='Добавить'>
+  </p>
+  {% for error in form.inv_num.errors %}
+  <span style="color:darkred">{{ error }}</span>
+  {% endfor %}
+</form>
+
+{% endblock %}

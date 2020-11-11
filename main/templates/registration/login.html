@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="shortcut icon" type="image/png" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/login/style.css">
+  </head>
+  <body>
+<div class="login-box">
+  <form method="POST" action="{% url 'login' %}">
+  {% csrf_token %}
+  <h1>Login</h1>
+  <div class="textbox">
+    <i class="fas fa-user"></i>
+    <!--input type="text" placeholder="Username"-->
+    {{ form.username }}
+  </div>
+
+  <div class="textbox">
+    <i class="fas fa-lock"></i>
+    <!--input type="password" placeholder="Password"-->
+    {{ form.password }}
+  </div>
+
+  <input type="submit" class="btn" value="Войти">
+   
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    {% endif %}
+  </form>
+</div>
+  </body>
+</html>

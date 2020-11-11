@@ -1,0 +1,24 @@
+
+.pagination{
+  background-color: #363244;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  width: 30%;
+}
+
+.pagination a{
+  width: 20%;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  text-decoration: none;
+  color: rgb(218, 223, 178);
+  font-size: 18px;
+  font-weight: 500;
+  transition: .3s linear;
+}
+
+.pagination a:hover{
+  color: #437eaf;
+}

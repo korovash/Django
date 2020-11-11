@@ -1,0 +1,71 @@
+{% extends 'main/base.html' %}
+{% block head %}
+<link rel="stylesheet" href="/static/form/style.css">
+{% endblock %}
+{% block style %}
+.container {width: 90%;}
+{% endblock %}
+{% block title %}
+Загрузка данных из файла CSV
+{% endblock %}
+
+{% block nav %}
+
+{% endblock %}
+
+{% block content %}
+
+{% load widget_tweaks %}
+<div><h1 align="center">Загрузка данных из файла CSV</h1></div><br>
+<div class="container" style="margin: auto; inline-size: fit-content;">
+<form method="post" class='form' id="upload_form" enctype="multipart/form-data">
+    {% csrf_token %}
+      <p class='field'>
+          {{ form.file_name|attr:"class:text-input" }}
+      </p>
+    <p class='field'>
+    <button id="upload_button" form="upload_form" type="submit" class="button">Загрузить</button>
+    </p>
+    <script>
+      $("upload_button").click(function(){
+        $("#error_msg").fadeOut("slow");
+        $("#error_msg").fadeOut(3000);
+      });
+    </script>
+</form>
+    <input type="submit" id="help_button" class="button" onclick=HideShowDiv() style="background-color: #66d8fb" value="Показать справку"/>
+    <script>
+      function HideShowDiv() {
+        var x = document.getElementById("help_text");
+        var elem = document.getElementById("help_button");
+
+        if (x.style.display === "none") {
+          x.style.display = "block";
+          elem.value = "Скрыть справку";
+        } else {
+          x.style.display = "none";
+          elem.value = "Показать справку";
+        }
+      }
+    </script>
+</div>
+
+{% if success_rows_count >= 0 %}
+<div id="error_msg" style="margin-left: auto; margin-right: auto; justify-content: center; border: solid; padding: inherit; margin-top: 30px; border-color: darkred;">
+  <p class='field'>Добавлено записей: {{ success_rows_count }}</p>{% endif %}
+  {% for error in error_list %} {{ error }} <br>{% endfor %}
+</div>
+<div id="help_text" class="text" style="padding: 30px;
+    margin: 0 auto;
+    width: 50%;
+    display: none;"
+    >
+  <p>Для добавления нескольких записей в базу данных можно использовать загрузку из файла формата CSV.
+  Для этого нужно собрать информацию в файл с 4 столбцами (например, это можно сделать через приложение Excel),
+  как представлено в примере, сохраняя первую заголовочную строку (hostname;inv_num;location;desc)
+  <p><img src="/static/img/csv_upload1.png" align=center><br>
+  <p>Затем нужно сохранить как файл "CSV - разделитель запятая". На самом деле разделителем будет точка с запятой, в случае использования русской версии ОС
+  Рекомендуется проверить файл после сохранения в виде простого текста (например, в приложении notepad++)<br>
+  <p><img src="/static/img/csv_upload2.png" align=center>
+</div>
+{% endblock %}

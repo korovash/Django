@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %}
+{% block head %}
+<link rel="stylesheet" href="/static/form/style.css">
+{% load static %}
+
+{% endblock %}
+
+
+{% block script%}
+
+{% endblock %}
+
+{% block title %}
+Добавление расположения
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block content %}
+<h1 align="center">Добавление расположения</h1>
+<form method="post" class='form'>
+  {% csrf_token %}
+  <p class='field required'>
+    <label class='label required' for='location'>Добавить новое расположение</label>
+    {{ form.location }}
+  </p>
+  <p class='field'>
+    <input class='button' type='submit' value='Добавить'>
+  </p>
+</form>
+<span>{{ error }}</span>
+{% endblock %}
