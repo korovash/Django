@@ -131,7 +131,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
+SESSION_COOKIE_AGE = 3 * 60 # 3 minutes
 
 def FILTERS_VERBOSE_LOOKUPS():
     from django_filters.conf import DEFAULTS
@@ -147,3 +147,4 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_REDIRECT_URL = 'main'
+LOGOUT_REDIRECT_URL = 'login'

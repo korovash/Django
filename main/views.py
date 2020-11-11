@@ -9,11 +9,10 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django_filters.views import FilterView
 from .forms import CsvModelForm
 from .models import Csv
-from docxtpl import DocxTemplate
 import csv
 import os
-import io
-from django.http import FileResponse, HttpResponse
+# from django.contrib.auth.decorators import login_required
+# from django.utils.decorators import method_decorator
 from printmon.settings import BASE_DIR, MEDIA_ROOT
 
 """ Device """

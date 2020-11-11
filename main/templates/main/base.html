@@ -39,6 +39,7 @@
     
 </style>
     <title>{% block title %}{% endblock %}</title>
+    <span id="login_text">{{ request.user.username }}</span> <a id="logout_ref" href="{% url 'logout' %}">Выход</a>
 </head>
 
 <body>

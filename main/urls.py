@@ -3,16 +3,18 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from . import views
 from .views import upload_file_view
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path('', views.DeviceIndexView.as_view(), name='main'),
-    path('create/', views.DeviceCreateView.as_view(), name='create'),
-    path('upload/', upload_file_view, name='upload'),
-    path('edit/<int:pk>', views.DeviceEditView.as_view(), name='edit'),
-    path('delete/<int:pk>', views.DeviceDeleteView.as_view(), name='delete'),
-    path('detail/<int:pk>', views.DeviceDetailView.as_view(), name='detail'),
+    path('', login_required(views.DeviceIndexView.as_view(), login_url='login'), name='main'),
+    path('create/', login_required(views.DeviceCreateView.as_view(), login_url='login'), name='create'),
+    path('upload/', login_required(upload_file_view, login_url='login'), name='upload'),
+    path('edit/<int:pk>', login_required(views.DeviceEditView.as_view(), login_url='login'), name='edit'),
+    path('delete/<int:pk>', login_required(views.DeviceDeleteView.as_view(), login_url='login'), name='delete'),
+    path('detail/<int:pk>', login_required(views.DeviceDetailView.as_view(), login_url='login'), name='detail'),
     path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
