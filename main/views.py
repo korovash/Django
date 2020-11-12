@@ -175,7 +175,7 @@ class DeviceDetailView(ListView):
 
         for print_item in print_list:
             date_charts_data.append(print_item[0])
-            if print_item[1] < 0 or print_item[1] > 500:
+            if print_item[1] < 0 or print_item[1] > 1000:
                 printed_charts_data.append(0)
             else:
                 printed_charts_data.append(print_item[1])
