@@ -1,32 +1,28 @@
 @import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
-html{
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-   background-size: cover;
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+html {
+  -webkit-font-smoothing: antialiased;
 }
 
 body{
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center center;
+  -webkit-background-size: 100%; 
+  -moz-background-size: 100%; 
+  -o-background-size: 100%; 
+  background-size: 100%; 
+  -webkit-background-size: cover; 
+  -moz-background-size: cover; 
+  -o-background-size: cover; 
   font-family: sans-serif;
-  background: url(bg4.jpg) no-repeat;
-
+  background: url(bg5.jpg) no-repeat;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.42em;
+  color:#A7A1AE;
+  background-color:#1F2739;
+  background-repeat: inherit;
 }
 
-@media only all and (max-width: 768px) {
-  body {
-      /* The file size of this background image is 93% smaller
- * to improve page load speed on mobile internet connections */
-      background-image: url(bg_mobile1.png) no-repeat ;
-      height: 300px;
-      width: 100%;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-  }
-}
 
 .login-box{
   width: 280px;
