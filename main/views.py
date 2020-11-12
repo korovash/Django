@@ -153,7 +153,6 @@ class DeviceDetailView(ListView):
             print_item = print_cnt_by_date["printed_count"]
             print_per_day_list.append((date_item, print_item))
         
-        
         print_list = list()
         first_date_item = dict()
         for i in range(0, len(print_per_day_list) - 1):
@@ -162,17 +161,21 @@ class DeviceDetailView(ListView):
                 first_date_item['printed'] = print_per_day_list[i][1]
             
             if i > 0 and not print_per_day_list[i][0] == print_per_day_list[i-1][0]:
-                print_item = print_per_day_list[i-1][1] - first_date_item['printed']
+                print_item = print_per_day_list[i][1] - first_date_item['printed']
                 print_list.append((first_date_item['date'], print_item))
                 first_date_item['date'] = print_per_day_list[i][0]
                 first_date_item['printed'] = print_per_day_list[i][1]
+            
+            if i == len(print_per_day_list) - 2:
+                print_item = print_per_day_list[i][1] - first_date_item['printed']
+                print_list.append((first_date_item['date'], print_item))
 
         date_charts_data = list()
         printed_charts_data = list()
 
         for print_item in print_list:
             date_charts_data.append(print_item[0])
-            if print_item[1] < 0:
+            if print_item[1] < 0 or print_item[1] > 500:
                 printed_charts_data.append(0)
             else:
                 printed_charts_data.append(print_item[1])
