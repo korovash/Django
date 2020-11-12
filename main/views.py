@@ -102,7 +102,7 @@ class DeviceDetailView(ListView):
         cyan_cart_by_date_dict = dict()
         mag_cart_by_date_dict = dict()
         yel_cart_by_date_dict = dict()
-
+        
         for print_cnt_by_date in all_print_cnt_by_date:
             if not print_cnt_by_date["date_item"].strftime('%d.%m.%Y') in date_list:
                 date_list.append(print_cnt_by_date["date_item"].strftime('%d.%m.%Y'))
@@ -132,7 +132,6 @@ class DeviceDetailView(ListView):
                 yel_cart_by_date_dict[print_cnt_by_date["date_item"].strftime('%d.%m.%Y')] \
                     = print_cnt_by_date["yel_tonerlevel"]
 
-        all_print_cnt_by_date_list = list()
         black_cart_list = list()
         cyan_cart_list = list()
         mag_cart_list = list()
@@ -140,7 +139,6 @@ class DeviceDetailView(ListView):
 
         for date_item in date_list:
             if date_item in all_print_cnt_by_date_dict:
-                all_print_cnt_by_date_list.append(all_print_cnt_by_date_dict[date_item])
                 black_cart_list.append(black_cart_by_date_dict[date_item])
                 if cyan_cart_by_date_dict[date_item]:
                     cyan_cart_list.append(cyan_cart_by_date_dict[date_item])
@@ -149,16 +147,42 @@ class DeviceDetailView(ListView):
                 if yel_cart_by_date_dict[date_item]:
                     yel_cart_list.append(yel_cart_by_date_dict[date_item])
 
-        print_per_day_list = [0]
-        for i in range(0, len(all_print_cnt_by_date_list) - 1):
-            print_per_day_list.append(all_print_cnt_by_date_list[i+1] - all_print_cnt_by_date_list[i])
+        print_per_day_list = list()
+        for print_cnt_by_date in all_print_cnt_by_date:
+            date_item = print_cnt_by_date["date_item"].strftime('%d.%m.%Y')
+            print_item = print_cnt_by_date["printed_count"]
+            print_per_day_list.append((date_item, print_item))
         
+        
+        print_list = list()
+        first_date_item = dict()
+        for i in range(0, len(print_per_day_list) - 1):
+            if i == 0:
+                first_date_item['date'] = print_per_day_list[i][0]
+                first_date_item['printed'] = print_per_day_list[i][1]
+            
+            if i > 0 and not print_per_day_list[i][0] == print_per_day_list[i-1][0]:
+                print_item = print_per_day_list[i-1][1] - first_date_item['printed']
+                print_list.append((first_date_item['date'], print_item))
+                first_date_item['date'] = print_per_day_list[i][0]
+                first_date_item['printed'] = print_per_day_list[i][1]
+
+        date_charts_data = list()
+        printed_charts_data = list()
+
+        for print_item in print_list:
+            date_charts_data.append(print_item[0])
+            if print_item[1] < 0:
+                printed_charts_data.append(0)
+            else:
+                printed_charts_data.append(print_item[1])
+
         charts_data = dict()
         cart_charts_data = dict()
         charts_data["chart_printed"] = dict()
-        charts_data["chart_printed"]["date_list"] = date_list
+        charts_data["chart_printed"]["date_list"] = date_charts_data
         charts_data["chart_printed"]["series"] = [
-            {"name": "Количество отпечатанных страниц", "color": "white", "data": print_per_day_list},
+            {"name": "Количество отпечатанных страниц", "color": "white", "data": printed_charts_data},
         ]
 
         cart_charts_data["cart_charts"] = dict()
