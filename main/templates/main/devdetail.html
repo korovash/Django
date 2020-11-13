@@ -1,7 +1,7 @@
 {% extends 'main/base.html' %}
 {% block head %}
 {% load static %}
-<link rel="stylesheet" href="/static/table/style.css">
+<link rel="stylesheet" href="{% static "table/style.css" %}">
 {% endblock %}
 
 {% block script %}
@@ -145,6 +145,7 @@ navigation: {
 
 // scroll charts
 rangeSelector: {
+   enabled:true,
   buttonTheme: {
      fill: '#505053',
      stroke: '#000000',
@@ -396,6 +397,7 @@ navigation: {
 
 // scroll charts
 rangeSelector: {
+   enabled:true,
   buttonTheme: {
      fill: '#505053',
      stroke: '#000000',

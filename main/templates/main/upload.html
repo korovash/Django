@@ -1,6 +1,7 @@
 {% extends 'main/base.html' %}
 {% block head %}
-<link rel="stylesheet" href="/static/form/style.css">
+{% load static %}
+<link rel="stylesheet" href="{% static "form/style.css" %}">
 {% endblock %}
 {% block style %}
 .container {width: 90%;}

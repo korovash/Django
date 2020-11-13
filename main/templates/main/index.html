@@ -1,9 +1,10 @@
 {% extends 'main/base.html' %}
 
 {% block head %}
-<link rel="stylesheet" href="/static/pagination/style.css">
-<link rel="stylesheet" href="/static/table/style.css">
-<link rel="stylesheet" href="/static/search/style.css">
+{% load static %}
+<link rel="stylesheet" href="{% static "pagination/style.css" %}">
+<link rel="stylesheet" href="{% static "table/style.css" %}">
+<link rel="stylesheet" href="{% static "search/style.css" %}">
 {% endblock %}
 
 {% block style %}
