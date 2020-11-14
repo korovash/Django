@@ -5,13 +5,12 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-SECRET_KEY = '-t!md4j4ai4#okpxufh2rz2q(y51*64_s+)tr#&a8kms^wwzxu'
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-ALLOWED_HOSTS = ["*"]
+DEBUG = int(os.getenv('DEBUG'))
+# DEBUG = 1
+
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -66,12 +65,12 @@ WSGI_APPLICATION = 'printmon.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'print_db',
-        'USER': 'django',
-        'PASSWORD': '8yt43fhL',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        "ENGINE": os.getenv("SQL_ENGINE"),
+        "NAME": os.getenv("SQL_DATABASE"),
+        "USER": os.getenv("SQL_USER"),
+        "PASSWORD": os.getenv("SQL_PASSWORD"),
+        "HOST": os.getenv("SQL_HOST"),
+        "PORT": os.getenv("SQL_PORT"),
     }
 }
 
@@ -113,10 +112,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -137,9 +133,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_AGE = 120 * 60
 
 
-LDAP_AUTH_URL = "ldap://dc.dvfu.ru:389"
+LDAP_AUTH_URL = "ldap://{}:389".format(os.getenv('LDAP_SERVER'))
 LDAP_AUTH_USE_TLS = False
-LDAP_AUTH_SEARCH_BASE = "dc=dvfu,dc=ru"
+LDAP_AUTH_SEARCH_BASE = os.getenv('LDAP_SEARCH_BASE')
 
 LDAP_AUTH_USER_FIELDS = {
     "username": "sAMAccountName",
@@ -182,7 +178,7 @@ LOGGING = {
 }
 
 # Sets the login domain for Active Directory users.
-LDAP_AUTH_ACTIVE_DIRECTORY_DOMAIN = "DVFU"
+LDAP_AUTH_ACTIVE_DIRECTORY_DOMAIN = os.getenv('LDAP_AUTH_AD_DOMAIN')
 
 # The LDAP username and password of a user for querying the LDAP database for user
 # details. If None, then the authenticated user will be used for querying, and
