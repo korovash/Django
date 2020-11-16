@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 from . import views
-from .views import upload_file_view
+from .views import upload_file_view, export_table_to_csv
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
 
@@ -15,6 +15,7 @@ urlpatterns = [
     path('detail/<int:pk>', login_required(views.DeviceDetailView.as_view(), login_url='login'), name='detail'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('export_csv/', views.export_table_to_csv, name='export_data_csv'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

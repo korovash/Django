@@ -11,8 +11,7 @@ from .forms import CsvModelForm
 from .models import Csv
 import csv
 import os
-# from django.contrib.auth.decorators import login_required
-# from django.utils.decorators import method_decorator
+from django.http import HttpResponse
 from printmon.settings import BASE_DIR, MEDIA_ROOT
 
 """ Device """
@@ -242,3 +241,23 @@ def upload_file_view(request):
                 obj.save()
 
     return render(request, 'main/upload.html', {'form': form, 'success_rows_count': success_rows_count, 'error_list': error_list})
+
+def export_table_to_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachement; filename="data.csv"'
+    response.write(u'\ufeff'.encode('utf8'))
+
+    writer = csv.writer(response, delimiter=';')
+    writer.writerow(['Hostname', 'Name', 'IPAddress', 'InvNumber', 
+        'SerialNumber', 'Location', 'Description'])
+
+    devices = Device.objects.all().values('hostname', 'name', 'ipaddr', 'inv_num', 
+        'serial_num', 'location', 'desc')
+
+    devices = devices.values_list('hostname', 'name', 'ipaddr', 'inv_num', 
+        'serial_num', 'location', 'desc')
+
+    for device in devices:
+        writer.writerow(device)
+
+    return response
