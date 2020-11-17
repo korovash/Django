@@ -4,7 +4,7 @@ from .models import Device, DeviceDetail
 from .forms import DeviceForm
 from .filters import DeviceFilter
 from django.urls import reverse_lazy
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django_filters.views import FilterView
 from .forms import CsvModelForm
@@ -14,8 +14,8 @@ import os
 from django.http import HttpResponse
 from printmon.settings import BASE_DIR, MEDIA_ROOT
 
-""" Device """
-
+""" Вьюшка для отображения данных в основной таблицы с фильтрами и 
+    пагинацией """
 class DeviceIndexView(FilterView):
     model = Device
     template_name = 'main/index.html'
@@ -37,6 +37,15 @@ class DeviceIndexView(FilterView):
     def get_paginate_by(self, queryset):
         return self.request.GET.get("paginate_by", self.paginate_by)
 
+    def post(self, request, *args, **kwargs):
+        if request.method == "POST":
+            device_id = request.POST.getlist('id[]')
+            for id in device_id:
+                device = Device.objects.get(pk=id)
+                device.delete()
+            return redirect('remove')
+
+""" Вьюшка для создания устройства  """
 class DeviceCreateView(CreateView):
     model = Device
     template_name = 'main/create.html'
@@ -52,11 +61,13 @@ class DeviceCreateView(CreateView):
         context['locations'] = locations
         return context
 
+""" Вьюшка для редактирования данных из общей таблицы на основе 
+    формы для создания устройства """
 class DeviceEditView(UpdateView):
     model = Device
     template_name = 'main/edit.html'
     form_class = DeviceForm
-    success_url = reverse_lazy('main')
+    success_url = reverse_lazy('main/?q=')
 
     def get_context_data(self, *args, **kwargs):
         context = super(DeviceEditView, self).get_context_data(*args, **kwargs)
@@ -68,11 +79,15 @@ class DeviceEditView(UpdateView):
         return context
 
 
+""" Вьюшка для удаления данных из общей таблицы """
 class DeviceDeleteView(DeleteView):
     model = Device
     template_name = 'main/edit.html'
     success_url = reverse_lazy('main')
 
+
+""" Вьюшка для отображения данных деталей устройства(количество отпечатков,
+    уровень тонера) """
 class DeviceDetailView(ListView):
     model = DeviceDetail
     template_name = 'main/devdetail.html'
@@ -81,6 +96,8 @@ class DeviceDetailView(ListView):
     def get_queryset(self):
         return DeviceDetail.objects.filter(device=self.request.resolver_match.kwargs['pk'])
 
+    
+    """ Получаем контекст для формирования списков для графиков """
     def get_context_data(self, *args, **kwargs):
         context = super(DeviceDetailView, self).get_context_data(*args, **kwargs)
         all_print_cnt_by_date = DeviceDetail.objects.all() \
@@ -200,6 +217,7 @@ class DeviceDetailView(ListView):
         context['charts_data'] = charts_data
         return context
 
+""" Функция для реализации запуливания данных из CSV-файла в базу данных """
 def upload_file_view(request):
     form = CsvModelForm(request.POST or None, request.FILES or None)
     success_rows_count = -1
@@ -242,6 +260,7 @@ def upload_file_view(request):
 
     return render(request, 'main/upload.html', {'form': form, 'success_rows_count': success_rows_count, 'error_list': error_list})
 
+""" Функция экспорта всех данных из общей таблицы в csv-файл и его закачка """
 def export_table_to_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachement; filename="data.csv"'

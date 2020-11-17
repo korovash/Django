@@ -46,11 +46,8 @@ class DeviceDetail(models.Model):
     def __str__(self):
         return str(self.hostname)
 
-    def get_absolute_url(self):
-        """
-        Returns the url to access a particular instance of the model.
-        """
-        return reverse('detail-view', args=[str(self.pk)])
+    """ def get_absolute_url(self):
+            return reverse('detail-view', args=[str(self.pk)]) """
 
     class Meta:
         ordering = ["-update_date"]
