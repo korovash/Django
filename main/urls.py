@@ -12,7 +12,7 @@ urlpatterns = [
     path('remove/', login_required(views.DeviceIndexView.as_view(), login_url='login'), name='remove'),
     path('upload/', login_required(upload_file_view, login_url='login'), name='upload'),
     path('edit/<int:pk>', login_required(views.DeviceEditView.as_view(), login_url='login'), name='edit'),
-    path('delete/<int:pk>', login_required(views.DeviceDeleteView.as_view(), login_url='login'), name='delete'),
+    # path('delete/<int:pk>', login_required(views.DeviceDeleteView.as_view(), login_url='login'), name='delete'),
     path('detail/<int:pk>', login_required(views.DeviceDetailView.as_view(), login_url='login'), name='detail'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),

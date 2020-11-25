@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = int(os.getenv('DEBUG'))
-#DEBUG = 1
+# DEBUG = 1
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(" ")
 
@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django_filters',
     'widget_tweaks',
     'django_python3_ldap',
+    'webstack_django_sorting',
 ]
 
 MIDDLEWARE = [

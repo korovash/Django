@@ -38,11 +38,26 @@
  .yellow { color: #FFF842; }
  
  .container th h1 {
-       font-weight: bold;
-       font-size: 1em;
-   text-align: left;
-   color: #548faa;
+    font-weight: bold;
+    font-size: 1em;
+    text-align: left;
+    color: #548faa;
  }
+
+.container>thead>tr>th>h1>a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1em;
+  text-align: left;
+  color: #548faa;
+}
+
+.container>thead>tr>th>h1>a:visited {
+  font-weight: bold;
+  font-size: 1em;
+  text-align: left;
+  color: #548faa;
+}
  
  .container td {
        font-weight: normal;

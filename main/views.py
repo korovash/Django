@@ -20,7 +20,7 @@ class DeviceIndexView(FilterView):
     model = Device
     template_name = 'main/index.html'
     context_object_name = 'devices'
-    paginate_by = 10
+    # paginate_by = 10
     filterset_class = DeviceFilter
     
     def get_context_data(self, *args, **kwargs):
@@ -34,8 +34,8 @@ class DeviceIndexView(FilterView):
         
         return context
 
-    def get_paginate_by(self, queryset):
-        return self.request.GET.get("paginate_by", self.paginate_by)
+    """ def get_paginate_by(self, queryset):
+        return self.request.GET.get("paginate_by", self.paginate_by) """
 
     def post(self, request, *args, **kwargs):
         if request.method == "POST":
@@ -67,7 +67,7 @@ class DeviceEditView(UpdateView):
     model = Device
     template_name = 'main/edit.html'
     form_class = DeviceForm
-    success_url = reverse_lazy('main/?q=')
+    success_url = reverse_lazy('main')
 
     def get_context_data(self, *args, **kwargs):
         context = super(DeviceEditView, self).get_context_data(*args, **kwargs)
@@ -80,11 +80,11 @@ class DeviceEditView(UpdateView):
 
 
 """ Вьюшка для удаления данных из общей таблицы """
-class DeviceDeleteView(DeleteView):
+""" class DeviceDeleteView(DeleteView):
     model = Device
     template_name = 'main/edit.html'
     success_url = reverse_lazy('main')
-
+ """
 
 """ Вьюшка для отображения данных деталей устройства(количество отпечатков,
     уровень тонера) """

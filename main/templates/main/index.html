@@ -1,5 +1,7 @@
 {% extends 'main/base.html' %}
 
+{% load sorting_tags %}
+
 {% block head %}
 {% load static %}
 <link rel="stylesheet" href="{% static "pagination/style.css" %}">
@@ -63,7 +65,7 @@ select {
       <p class='field'>
           {{ filter.form.desc|attr:"class:text-input"|attr:"placeholder:Описание" }}
       </p>
-          <!-- NUMBER OF PAGES SELECTOR -->
+{% comment %}       <!-- NUMBER OF PAGES SELECTOR -->
       <p class='field'>
       <select name="paginate_by" class="select" id="paginator_sel" onchange="this.form.submit()">
           <option value="10">10 записей</option>
@@ -81,7 +83,7 @@ select {
 
         $('select').find('option[value='+sessionStorage.getItem('itemName')+']').attr('selected','selected');
       </script>
-        <!-- END OF NUMBER OF PAGES SELECTOR-->
+      <!-- END OF NUMBER OF PAGES SELECTOR--> {% endcomment %}
       <p class='field'>
         <button type="submit" class="button"><i class="fa fa-search"></i></button>
       </p>
@@ -95,7 +97,7 @@ select {
 </div>
 <!-- END OF FILTER -->
 
-<!--- PAGINATOR --->
+{% comment %} <!--- PAGINATOR --->
 <div class="container" style="margin-left: auto; margin-right: auto; justify-content: center;">
         <div class="pagination" style="margin-left: auto; margin-right: auto; justify-content: center;">
           {% if page_obj.has_previous %}
@@ -114,22 +116,23 @@ select {
           {% endif %}
         </div>
     </div>
-<!-- END OF PAGINATOR -->
+<!-- END OF PAGINATOR --> {% endcomment %}
 
 {% if devices %}
+{% autosort devices %}
 <table class="container" id="main_table">
 	<thead>
 		<tr>
-      <th style="width:2%;"><input id="select-all" type="checkbox" value=""></th>
-      <th><h1>Узел</h1></th>
-      <th><h1>Название</h1></th>
-      <th><h1>IP адрес</h1></th>
-      <th><h1>Состояние</h1></th>
-      <th><h1>Инв. номер</h1></th>
-      <th><h1>Сер. номер</h1></th>
-      <th><h1>Расположение</h1></th>
-      <th><h1>Описание</h1></th>
-      <th><h1>Дата обновления</h1></th>
+      <th style="width:2%; text-align: -webkit-center;"><input id="select-all" type="checkbox" value=""></th>
+      <th><h1>{% anchor hostname "Узел" %}</h1></th>
+      <th><h1>{% anchor name "Название" %}</h1></th>
+      <th><h1>{% anchor ipaddr "IP адрес" %}</h1></th>
+      <th><h1>{% anchor status "Состояние" %}</h1></th>
+      <th><h1>{% anchor inv_num "Инв. номер" %}</h1></th>
+      <th><h1>{% anchor serial_num "Сер. номер" %}</h1></th>
+      <th><h1>{% anchor location "Расположение" %}</h1></th>
+      <th><h1>{% anchor desc "Описание" %}</h1></th>
+      <th><h1>{% anchor update_date "Дата обновления" %}</h1></th>
       <th style="width:5%;"><h1>Изменить</h1></th>
     </tr>
   </thead>
@@ -137,7 +140,7 @@ select {
     {% csrf_token%}
         {% for el in devices %}
     <tr id="{{ el.id }}">
-      <td>
+      <td style="text-align: -webkit-center;">
         <input type="checkbox" name="device_id[]" value="{{ el.id }}" id="delete_device">
       </td>       
       <td><a href="{% url 'detail' el.id %}"  style="color:#FB667A;">{{ el.hostname }}</a></td>
@@ -232,9 +235,8 @@ $('#select-all').click(function(event) {
 <script>
   $(document).ready(function(){
     $("#delete-btn").click(function(){
-      if(confirm("Хотите удалить выделенные записи?")){
         var id = [];
-        var csrf = $('input[name=csrfmiddlewaretoken').val()
+        var csrf = $('input[name=csrfmiddlewaretoken]').val()
             $(':checkbox:checked').each(
                 function(i){
                 id[i] = $(this).val()
@@ -248,6 +250,7 @@ $('#select-all').click(function(event) {
               alert("Выберете записи для удаления")
           }
           else {
+            if(confirm("Хотите удалить выделенные записи?")){
             $.ajax({
               url: '.',
               type: 'POST',
@@ -262,9 +265,9 @@ $('#select-all').click(function(event) {
                 }
               }
             })
+            }
           }
-      }
-    });
+      })
   })
 </script>
     {% else %}
