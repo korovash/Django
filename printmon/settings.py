@@ -7,8 +7,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = int(os.getenv('DEBUG'))
-# DEBUG = 1
+# DEBUG = int(os.getenv('DEBUG'))
+DEBUG = 1
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(" ")
 
@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'django_python3_ldap',
     'webstack_django_sorting',
+    'cacheops',
 ]
 
 MIDDLEWARE = [
@@ -192,3 +193,16 @@ LDAP_AUTH_CONNECT_TIMEOUT = None
 LDAP_AUTH_RECEIVE_TIMEOUT = None
 
 LDAP_AUTH_FORMAT_SEARCH_FILTERS = "main.ldap_group_filter.custom_format_search_filters"
+
+CACHEOPS_REDIS = "redis://localhost:6379"
+
+CACHEOPS_DEFAULTS = {
+    'timeout': 60*60
+}
+
+CACHEOPS = {
+    'auth.user': {'ops': 'get', 'timeout': 60*15},
+    'auth.*': {'ops': ('fetch', 'get')},
+    'auth.permission': {'ops': 'all'},
+    '*.*': {'ops': (), 'timeout': 60*60},
+}

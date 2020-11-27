@@ -5,9 +5,11 @@ from . import views
 from .views import upload_file_view, export_table_to_csv
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
+from cacheops import cached_view_as
+from .models import Device
 
 urlpatterns = [
-    path('', login_required(views.DeviceIndexView.as_view(), login_url='login'), name='main'),
+    path('', login_required(cached_view_as(Device)(views.DeviceIndexView.as_view()), login_url='login'), name='main'),
     path('create/', login_required(views.DeviceCreateView.as_view(), login_url='login'), name='create'),
     path('remove/', login_required(views.DeviceIndexView.as_view(), login_url='login'), name='remove'),
     path('upload/', login_required(upload_file_view, login_url='login'), name='upload'),
